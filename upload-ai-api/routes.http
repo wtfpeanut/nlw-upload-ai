@@ -1,0 +1,37 @@
+# @name get-prompts
+GET http://localhost:3333/prompts
+
+###
+
+# @name upload
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----WebkitFormBoundary7MA4YWxkTrZu0gW
+
+------WebkitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="example.mp3"
+Content-Type: audio/mpeg
+
+< ./example.mp3
+------WebkitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+# @name create-transcription
+POST http://localhost:3333/videos/8b70aa04-20f2-4275-b7c5-f3849424bab8/transcription
+Content-type: application/json
+
+{
+    "prompt": "android, instruções"
+}
+
+###
+
+# @name generate-ai-completion
+POST http://localhost:3333/ai/complete
+Content-type: application/json
+
+{
+    "videoId": "8b70aa04-20f2-4275-b7c5-f3849424bab8",
+    "temperature": 0.5,
+    "template": "Gere um resumo da transcrição do vídeo informada a seguir: '''{transcription}'''"
+}
